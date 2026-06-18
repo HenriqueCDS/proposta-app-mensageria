@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="715f341b-6d4d-40a9-a22a-b489f1c79518" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/controller/PropostaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/dto/PropostaRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/dto/PropostaResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/entity/Proposta.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/entity/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/mapper/PropostaMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/repository/PropostaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/proposta/app/proposta/app/service/PropostaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/proposta/app/proposta/app/ApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="27" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0000000000002802" />
+      <entry key="S30" value="1.0000654474735562" />
+      <entry key="S60" value="1.0081641319733687" />
+      <entry key="M2" value="1.1079454680752936" />
+      <entry key="M5" value="1.9870146078412287" />
+      <entry key="M10" value="3.9037859900319423" />
+      <entry key="M15" value="5.457064250915784" />
+      <entry key="M30" value="8.844857058559178" />
+      <entry key="H1" value="18.640333555288766" />
+      <entry key="H2" value="51.36054632504327" />
+      <entry key="H4" value="108.28995643761132" />
+      <entry key="D1" value="226.0500225930996" />
+      <entry key="W1" value="258.9886755967916" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="9.5059043507981E-140" />
+      <entry key="S5" value="3.027160583840515E-56" />
+      <entry key="S10" value="2.3306053356610194E-28" />
+      <entry key="S30" value="9.6388085602646E-10" />
+      <entry key="S60" value="4.396953094481402E-5" />
+      <entry key="M2" value="0.010183785590299624" />
+      <entry key="M5" value="0.38968992844935957" />
+      <entry key="M10" value="1.6332409721984713" />
+      <entry key="M15" value="2.789829257309768" />
+      <entry key="M30" value="5.4482063643688265" />
+      <entry key="H1" value="10.596589335078153" />
+      <entry key="H2" value="24.31032310451917" />
+      <entry key="H4" value="49.56005285939437" />
+      <entry key="D1" value="106.9797959294258" />
+      <entry key="W1" value="123.88414741357431" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.3736715246532667E-222" />
+      <entry key="MS500" value="4.242057775129055E-45" />
+      <entry key="S2" value="8.070382982416396E-12" />
+      <entry key="S5" value="3.653908417747391E-5" />
+      <entry key="S10" value="0.006044756751141772" />
+      <entry key="S30" value="0.18222560823429657" />
+      <entry key="S60" value="0.43484735897087295" />
+      <entry key="M2" value="0.7700969922544434" />
+      <entry key="M5" value="2.2114787890544636" />
+      <entry key="M10" value="5.439180793150674" />
+      <entry key="M15" value="8.173641883416643" />
+      <entry key="M30" value="14.245669909364723" />
+      <entry key="H1" value="29.201630396347838" />
+      <entry key="H2" value="75.64195194644417" />
+      <entry key="H4" value="157.82730678779888" />
+      <entry key="D1" value="333.0232643313944" />
+      <entry key="W1" value="382.8717751571346" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="3FBGo8duQQ9fQ3SgGzHQAqEbxGS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.proposta.app [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.proposta.app [compile].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Application.executor&quot;: &quot;Debug&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.25134.95" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.25134.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="715f341b-6d4d-40a9-a22a-b489f1c79518" name="Changes" comment="" />
+      <created>1781541227785</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1781541227785</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
