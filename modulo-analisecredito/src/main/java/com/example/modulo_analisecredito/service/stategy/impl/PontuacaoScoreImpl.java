@@ -1,10 +1,16 @@
 package com.example.modulo_analisecredito.service.stategy.impl;
 
+import com.example.modulo_analisecredito.StategyException;
+import com.example.modulo_analisecredito.constante.MensagemConstante;
 import com.example.modulo_analisecredito.domain.Proposta;
 import com.example.modulo_analisecredito.service.stategy.CalculoPonto;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@Order(2)
+@Component
 public class PontuacaoScoreImpl implements CalculoPonto {
 
     @Override
@@ -12,7 +18,7 @@ public class PontuacaoScoreImpl implements CalculoPonto {
         int score = score();
 
         if(score <= 200){
-            throw new RuntimeException("Score abaixo");
+            throw new StategyException(String.format(MensagemConstante.PONTUACAO_SERASA_BAIXA,proposta.getUsuario().getNome()));
         }else if(score <= 400){
             return 150;
           }else if(score <= 600){

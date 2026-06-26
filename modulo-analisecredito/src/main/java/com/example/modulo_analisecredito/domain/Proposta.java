@@ -17,4 +17,5 @@ public class Proposta {
 
     private Usuario usuario;
 
+
 }
