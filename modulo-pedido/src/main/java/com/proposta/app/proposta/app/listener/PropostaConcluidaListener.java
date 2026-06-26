@@ -14,7 +14,7 @@ public class PropostaConcluidaListener {
 
     @RabbitListener(queues = "${rabbit.queue.proposta.concluida}")
     public void propostaConcluida(Proposta proposta){
-        PropostaRepository.save(proposta);
+        propostaRepository.save(proposta);
     }
 
 }
