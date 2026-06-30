@@ -60,7 +60,8 @@ export class AppComponent implements OnInit {
         this.limparFormulario();
         this.notificacao.success('Proposta cadastrada com sucesso!')
       }, error: (error) => {
-        this.notificacao.error(error.error)
+        const msg = typeof error.error === 'string' ? error.error : 'Erro ao cadastrar proposta. Verifique se o servidor está disponível.'
+        this.notificacao.error(msg)
       }
     })
   }
@@ -86,5 +87,9 @@ export class AppComponent implements OnInit {
 
   setObservacao(observacao: string): void {
     this.observacao = observacao;
+  }
+
+  countStatus(aprovado: boolean | null): number {
+    return this.propostas.filter(p => p.aprovado === aprovado).length;
   }
 }

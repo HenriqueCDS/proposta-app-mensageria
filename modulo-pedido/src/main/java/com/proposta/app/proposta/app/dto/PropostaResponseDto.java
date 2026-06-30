@@ -19,7 +19,7 @@ public class PropostaResponseDto {
     private String valorSolicitadoFmt;
     private int prazoPagamento;
     private Boolean aprovado;
-    private String obsercacao;
+    private String observacao;
 
 
 }

@@ -1,8 +1,25 @@
 @import 'bootstrap/dist/css/bootstrap.css';
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import '~bootstrap-icons/font/bootstrap-icons.css';
-@import 'bootstrap/dist/css/bootstrap.css';
+
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --primary-light: #818cf8;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg-gradient-start: #1e1b4b;
+  --bg-gradient-end: #312e81;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-    font-family: 'Nunito Sans';
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  min-height: 100vh;
+  margin: 0;
 }

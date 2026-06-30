@@ -1,116 +1,300 @@
-<div class="container mt-3">
-
-  <div class="row p-4" *ngIf="propostas.length == 0 || exibirTelaCadastro">
-
-    <form [formGroup]="formulario">
-      <div class="form-icon">
-        <span><i class="bi bi-person"></i></span>
+<!-- Header / Navbar -->
+<header class="app-header">
+  <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <div class="header-icon">
+        <i class="bi bi-shield-check"></i>
       </div>
-      <div class="form-group">
-        <input type="text" class="form-control item" placeholder="Nome" formControlName="nome">
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control item" placeholder="Sobrenome" formControlName="sobrenome">
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control item" placeholder="CPF" formControlName="cpf" mask="000.000.000-00">
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control item" placeholder="Telefone" formControlName="telefone"
-          mask="+00 (00) 00000-0000">
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control item" placeholder="Renda" formControlName="renda" currencyMask
-          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left'}">
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control item" placeholder="Valor solicitado" formControlName="valorSolicitado"
-          currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left'}">
-      </div>
-      <div class="form-group">
-        <label>Prazo (em meses)</label><br>
-        <mat-slider class="example-margin mt-2 w-75 slider" min="24" max="300" step="12">
-          <input matSliderThumb #slider formControlName="prazoPagamento">
-        </mat-slider>
-        {{slider.value}}
-      </div>
-      <div class="form-group">
-        <button (click)="cadastrarProposta()" class="btn btn-block enviar-analise">Enviar para
-          análise</button>
-      </div>
-    </form>
-
-  </div>
-
-
-  <div class="row p-4" *ngIf="propostas.length != 0">
-
-    <div class="row titulo-tabela p-2">
-      <div class="col-6">
-        <h4>Resultado</h4>
-      </div>
-      <div class="col-6 text-end">
-        <button (click)="exibirTelaCadastro = !exibirTelaCadastro" class="btn btn-light">
-          <i class="{{exibirTelaCadastro ? 'bi bi-dash-circle': 'bi bi-plus-circle'}}">
-            {{exibirTelaCadastro ? 'Recolher': 'Cadastrar'}}</i></button>
+      <div>
+        <h1 class="header-title mb-0">Verificador de Propostas</h1>
+        <span class="header-subtitle">Análise de crédito em tempo real</span>
       </div>
     </div>
+    <div class="d-flex align-items-center gap-3">
+      <span class="ws-status" [class.ws-connected]="true">
+        <span class="ws-dot"></span> Conectado
+      </span>
+      <span class="badge-count" *ngIf="propostas.length > 0">
+        {{ propostas.length }} proposta{{ propostas.length > 1 ? 's' : '' }}
+      </span>
+    </div>
+  </div>
+</header>
 
-    <div class="row table-responsive">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Valor</th>
-            <th>Prazo</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let proposta of propostas">
-            <td>{{proposta.nome}} {{proposta.sobrenome}}</td>
-            <td>
-              <p class="fw-normal mb-1">{{ proposta.cpf| mask: '000.000.000-00' }}</p>
-            </td>
-            <td>
-              {{proposta.valorSolicitadoFmt}}
-            </td>
-            <td>
-              {{proposta.prazoPagamento}} meses
-            </td>
-            <td>
-              {{proposta.aprovada == null ? 'Em análise': proposta.aprovada ? 'Aprovada': 'Reprovada'}}
-            </td>
-            <td>
-              <button (click)="setObservacao(proposta.observacao)" *ngIf="proposta.aprovada == false" type="button"
-                class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Observação
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<!-- Main Content -->
+<main class="app-main">
+  <div class="container-xl px-4">
+
+    <!-- Form Card -->
+    <div class="form-card" *ngIf="propostas.length == 0 || exibirTelaCadastro">
+
+      <div class="form-card-header">
+        <div class="form-card-icon">
+          <i class="bi bi-person-plus-fill"></i>
+        </div>
+        <div>
+          <h2 class="form-card-title">Nova Proposta</h2>
+          <p class="form-card-desc">Preencha os dados do solicitante</p>
+        </div>
+      </div>
+
+      <form [formGroup]="formulario">
+
+        <div class="fields-grid">
+
+          <div class="field-group">
+            <label class="field-label">Nome</label>
+            <div class="input-wrapper">
+              <i class="bi bi-person input-icon"></i>
+              <input type="text" class="field-input"
+                [class.field-invalid]="exibirMsgCampoObrigatorio && formulario.get('nome')?.invalid"
+                placeholder="Seu nome" formControlName="nome">
+            </div>
+            <div *ngIf="exibirMsgCampoObrigatorio && formulario.get('nome') as nome" class="field-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <small *ngIf="nome.hasError('required')">Nome é obrigatório.</small>
+              <small *ngIf="nome.hasError('minlength')">Mínimo de 3 caracteres.</small>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Sobrenome</label>
+            <div class="input-wrapper">
+              <i class="bi bi-person input-icon"></i>
+              <input type="text" class="field-input"
+                [class.field-invalid]="exibirMsgCampoObrigatorio && formulario.get('sobrenome')?.invalid"
+                placeholder="Seu sobrenome" formControlName="sobrenome">
+            </div>
+            <div *ngIf="exibirMsgCampoObrigatorio && formulario.get('sobrenome') as sobrenome" class="field-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <small *ngIf="sobrenome.hasError('required')">Sobrenome é obrigatório.</small>
+              <small *ngIf="sobrenome.hasError('minlength')">Mínimo de 3 caracteres.</small>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">CPF</label>
+            <div class="input-wrapper">
+              <i class="bi bi-card-text input-icon"></i>
+              <input type="text" class="field-input"
+                [class.field-invalid]="exibirMsgCampoObrigatorio && formulario.get('cpf')?.invalid"
+                placeholder="000.000.000-00" formControlName="cpf" mask="000.000.000-00">
+            </div>
+            <div *ngIf="exibirMsgCampoObrigatorio && formulario.get('cpf') as cpf" class="field-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <small *ngIf="cpf.hasError('required')">CPF é obrigatório.</small>
+              <small *ngIf="cpf.hasError('minlength')">CPF incompleto — preencha todos os 11 dígitos.</small>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Telefone</label>
+            <div class="input-wrapper">
+              <i class="bi bi-telephone input-icon"></i>
+              <input type="text" class="field-input"
+                [class.field-invalid]="exibirMsgCampoObrigatorio && formulario.get('telefone')?.invalid"
+                placeholder="+55 (00) 00000-0000" formControlName="telefone" mask="+00 (00) 00000-0000">
+            </div>
+            <div *ngIf="exibirMsgCampoObrigatorio && formulario.get('telefone') as telefone" class="field-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <small *ngIf="telefone.hasError('required')">Telefone é obrigatório.</small>
+              <small *ngIf="telefone.hasError('minlength')">Número incompleto.</small>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Renda Mensal</label>
+            <div class="input-wrapper">
+              <i class="bi bi-cash-coin input-icon"></i>
+              <input type="text" class="field-input"
+                [class.field-invalid]="exibirMsgCampoObrigatorio && formulario.get('renda')?.invalid"
+                placeholder="R$ 0,00" formControlName="renda" currencyMask
+                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left'}">
+            </div>
+            <div *ngIf="exibirMsgCampoObrigatorio && formulario.get('renda') as renda" class="field-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <small *ngIf="renda.hasError('required')">Renda é obrigatória.</small>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Valor Solicitado</label>
+            <div class="input-wrapper">
+              <i class="bi bi-currency-dollar input-icon"></i>
+              <input type="text" class="field-input"
+                [class.field-invalid]="exibirMsgCampoObrigatorio && formulario.get('valorSolicitado')?.invalid"
+                placeholder="R$ 0,00" formControlName="valorSolicitado"
+                currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left'}">
+            </div>
+            <div *ngIf="exibirMsgCampoObrigatorio && formulario.get('valorSolicitado') as valor" class="field-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <small *ngIf="valor.hasError('required')">Valor solicitado é obrigatório.</small>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Prazo Slider -->
+        <div class="prazo-section">
+          <div class="prazo-header">
+            <label class="field-label mb-0">Prazo de Pagamento</label>
+            <span class="prazo-value">
+              <i class="bi bi-calendar3"></i>
+              {{ slider.value }} meses
+            </span>
+          </div>
+          <div class="slider-wrapper">
+            <span class="slider-edge">24m</span>
+            <mat-slider class="prazo-slider" min="24" max="300" step="12">
+              <input matSliderThumb #slider formControlName="prazoPagamento">
+            </mat-slider>
+            <span class="slider-edge">300m</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" (click)="limparFormulario()" class="btn-clear" *ngIf="exibirMsgCampoObrigatorio">
+            <i class="bi bi-x-circle"></i> Limpar
+          </button>
+          <button (click)="cadastrarProposta()" class="btn-submit">
+            <i class="bi bi-send-fill"></i>
+            Enviar para Análise
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-card" *ngIf="propostas.length != 0">
+
+      <div class="results-header">
+        <div class="d-flex align-items-center gap-3">
+          <div class="results-icon">
+            <i class="bi bi-clipboard2-data"></i>
+          </div>
+          <div>
+            <h2 class="results-title mb-0">Resultado das Análises</h2>
+            <span class="results-count">{{ propostas.length }} proposta{{ propostas.length > 1 ? 's' : '' }} registrada{{ propostas.length > 1 ? 's' : '' }}</span>
+          </div>
+        </div>
+        <button (click)="exibirTelaCadastro = !exibirTelaCadastro" class="btn-toggle">
+          <i class="bi bi-{{ exibirTelaCadastro ? 'dash-circle' : 'plus-circle-fill' }}"></i>
+          {{ exibirTelaCadastro ? 'Recolher formulário' : 'Nova proposta' }}
+        </button>
+      </div>
+
+      <!-- Status Summary -->
+      <div class="status-summary">
+        <div class="summary-chip chip-analise">
+          <i class="bi bi-hourglass-split"></i>
+          <span>{{ countStatus(null) }} em análise</span>
+        </div>
+        <div class="summary-chip chip-aprovada">
+          <i class="bi bi-check-circle-fill"></i>
+          <span>{{ countStatus(true) }} aprovada{{ countStatus(true) > 1 ? 's' : '' }}</span>
+        </div>
+        <div class="summary-chip chip-reprovada">
+          <i class="bi bi-x-circle-fill"></i>
+          <span>{{ countStatus(false) }} reprovada{{ countStatus(false) > 1 ? 's' : '' }}</span>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="propostas-table">
+          <thead>
+            <tr>
+              <th>Solicitante</th>
+              <th>CPF</th>
+              <th>Valor</th>
+              <th>Prazo</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let proposta of propostas" class="table-row"
+              [class.row-aprovada]="proposta.aprovado === true"
+              [class.row-reprovada]="proposta.aprovado === false"
+              [class.row-analise]="proposta.aprovado === null">
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="avatar">{{ proposta.nome.charAt(0) }}{{ proposta.sobrenome.charAt(0) }}</div>
+                  <div>
+                    <div class="fw-600">{{ proposta.nome }} {{ proposta.sobrenome }}</div>
+                    <div class="text-muted-sm">{{ proposta.telefone }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="cpf-text">{{ proposta.cpf | mask: '000.000.000-00' }}</span>
+              </td>
+              <td>
+                <span class="valor-text">{{ proposta.valorSolicitadoFmt }}</span>
+              </td>
+              <td>
+                <span class="prazo-chip">
+                  <i class="bi bi-calendar3"></i>
+                  {{ proposta.prazoPagamento }}m
+                </span>
+              </td>
+              <td>
+                <span class="status-badge"
+                  [class.badge-analise]="proposta.aprovado === null"
+                  [class.badge-aprovada]="proposta.aprovado === true"
+                  [class.badge-reprovada]="proposta.aprovado === false">
+                  <i class="bi bi-{{
+                    proposta.aprovado === null ? 'hourglass-split' :
+                    proposta.aprovado ? 'check-circle-fill' : 'x-circle-fill'
+                  }}"></i>
+                  {{ proposta.aprovado === null ? 'Em análise' : proposta.aprovado ? 'Aprovada' : 'Reprovada' }}
+                </span>
+              </td>
+              <td>
+                <button (click)="setObservacao(proposta.observacao)"
+                  *ngIf="proposta.aprovado === false"
+                  type="button"
+                  class="btn-obs"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalObservacao">
+                  <i class="bi bi-chat-text-fill"></i> Observação
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
 
   </div>
+</main>
 
-
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #3f51b5;">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Observação</h1>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Modal de Observação -->
+<div class="modal fade" id="modalObservacao" tabindex="-1" aria-labelledby="modalObservacaoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-custom">
+      <div class="modal-header-custom">
+        <div class="d-flex align-items-center gap-2">
+          <div class="modal-icon">
+            <i class="bi bi-chat-square-text-fill"></i>
+          </div>
+          <h5 class="modal-title-custom mb-0" id="modalObservacaoLabel">Motivo da Reprovação</h5>
+        </div>
+        <button type="button" class="btn-modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
       </div>
-      <div class="modal-body">
-        {{observacao}}
+      <div class="modal-body-custom">
+        <div class="obs-box">
+          <i class="bi bi-info-circle-fill obs-icon"></i>
+          <p class="obs-text mb-0">{{ observacao }}</p>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary meu-azul" data-bs-dismiss="modal">Fechar</button>
+      <div class="modal-footer-custom">
+        <button type="button" class="btn-fechar" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle"></i> Fechar
+        </button>
       </div>
     </div>
   </div>

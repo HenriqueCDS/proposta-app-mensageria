@@ -26,8 +26,13 @@ public class AnaliseCreditoService {
 
         try {
             int pontos = calculoPontoList.stream().mapToInt(impl -> impl.calcular(proposta)).sum();
-            System.out.println(proposta.getUsuario().getNome()+":"+pontos);
+           
             proposta.setAprovado( pontos > 350);
+
+            proposta.setObservacao(pontos > 350
+                    ? "Proposta aprovada com " + pontos + " pontos."
+                    : "Proposta reprovada. Pontuação insuficiente: " + pontos + " pontos.");
+
         }catch (StategyException ex){
             proposta.setAprovado(false);
             proposta.setObservacao(ex.getMessage());
