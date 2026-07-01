@@ -1,0 +1,102 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: proposta-postgres
+    environment:
+      POSTGRES_DB: proposta
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: silva007
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - proposta-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: proposta-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - proposta-net
+
+  modulo-pedido:
+    build: ./modulo-pedido
+    container_name: proposta-modulo-pedido
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/proposta
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: silva007
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - proposta-net
+
+  modulo-analisecredito:
+    build: ./modulo-analisecredito
+    container_name: proposta-modulo-analisecredito
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - proposta-net
+
+  modulo-notificacao:
+    build: ./modulo-notificacao
+    container_name: proposta-modulo-notificacao
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      AWS_ACESSKEY: ${AWS_ACCESS_KEY:-changeme}
+      AWS_SECRETKEY: ${AWS_SECRET_KEY:-changeme}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - proposta-net
+
+  frontend:
+    build: ./Front-end/cadastro-web-master
+    container_name: proposta-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - modulo-pedido
+    networks:
+      - proposta-net
+
+networks:
+  proposta-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
