@@ -26,7 +26,7 @@ public class AnaliseCreditoService {
 
         try {
             int pontos = calculoPontoList.stream().mapToInt(impl -> impl.calcular(proposta)).sum();
-           
+
             proposta.setAprovado( pontos > 350);
 
             proposta.setObservacao(pontos > 350

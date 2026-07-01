@@ -1,7 +1,7 @@
 package com.proposta.app.proposta.app.agendador;
 
 import com.proposta.app.proposta.app.repository.PropostaRepository;
-import com.proposta.app.proposta.app.service.NotficacaoService;
+import com.proposta.app.proposta.app.service.NotificacaoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,13 +15,13 @@ public class PropostaSemIntegracao {
 
     private PropostaRepository propostaRepository;
 
-    private NotficacaoService notficacaoService;
+    private NotificacaoService notficacaoService;
 
     private String exchange;
 
     private final Logger logger = LoggerFactory.getLogger(PropostaSemIntegracao.class);
 
-    public PropostaSemIntegracao(PropostaRepository propostaRepository, NotficacaoService notficacaoService, @Value("${rabbitmq.propostapendente.exchange}") String exchange) {
+    public PropostaSemIntegracao(PropostaRepository propostaRepository, NotificacaoService notficacaoService, @Value("${rabbitmq.propostapendente.exchange}") String exchange) {
         this.propostaRepository = propostaRepository;
         this.notficacaoService = notficacaoService;
         this.exchange = exchange;

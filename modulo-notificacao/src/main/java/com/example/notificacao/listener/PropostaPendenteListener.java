@@ -21,4 +21,16 @@ public class PropostaPendenteListener {
         System.out.println(mensagem);
         //notificacaoSnsService.notificar(proposta.getUsuario().getTelefone(),mensagem);
     }
+
+    @RabbitListener(queues = "${rabbitmq.queue.proposta.concluida}")
+    public void propostaConcluida(Proposta proposta) {
+        String mensagem = "";
+        if (Boolean.TRUE.equals(proposta.getAprovado())) {
+            mensagem = String.format(MensagemConstante.PROPOSTA_APROVADA, proposta.getUsuario().getNome());
+        } else {
+            mensagem = String.format(MensagemConstante.PROPOSTA_NEGADA, proposta.getUsuario().getNome(), proposta.getObservacao());
+        }
+        System.out.println(mensagem);
+        //notificacaoSnsService.notificar(proposta.getUsuario().getTelefone(),mensagem);
+    }
 }

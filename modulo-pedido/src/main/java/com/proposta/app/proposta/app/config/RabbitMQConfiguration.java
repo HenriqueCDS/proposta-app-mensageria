@@ -10,9 +10,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
-
-
 @Configuration
 public class RabbitMQConfiguration {
 
@@ -22,11 +19,9 @@ public class RabbitMQConfiguration {
     @Value("${rabbitmq.propostaconcluida.exchange}")
     private String exchangepPropostaConcluida;
 
-    @Bean
-    public Queue criarFilaPropostaPedenteMsAnaliseCredito(){
-        return QueueBuilder.durable("proposta-pendente.ms-analise-credito").build();
 
-    }
+    @Value("${rabbitmq.propostaDLXconcluida.exchange}")
+    private String exchangeDlxPropostaConcluida;
 
     @Bean
     public Queue criarFilaFilaPropostaPedenteMsNotificao(){
@@ -86,7 +81,7 @@ public class RabbitMQConfiguration {
     }
     @Bean
     public Binding criarBindingPropostaConcluidaMSnotificacao(){
-        return  BindingBuilder.bind(criarFilaPropostaConcluidaProposta()).
+        return  BindingBuilder.bind(criarFilaFilaPropostaConcluidaMsNotificao()).
                 to(criarFanoutExchangePropostaConcluida());
     }
 
@@ -104,7 +99,32 @@ public class RabbitMQConfiguration {
         return rabbitTemplate;
     }
 
+    @Bean
+    public Queue criarFilaPropostaPedenteMsAnaliseCredito(){
+        return QueueBuilder.durable("proposta-pendente.ms-analise-credito")
+                .maxLength(10)
+                .maxPriority(10)
+                .deadLetterExchange(exchangeDlxPropostaConcluida)
+                .build();
 
+    }
+
+    @Bean
+    public Queue criarFilaPropostaPendenteDlq(){
+        return QueueBuilder.durable("proposta-pendente.dlx")
+                .build();
+    }
+
+    @Bean
+    public FanoutExchange deadLetterExChange(){
+
+        return ExchangeBuilder.fanoutExchange(exchangeDlxPropostaConcluida).build();
+    }
+
+
+    @Bean Binding criarBinding(){
+        return BindingBuilder.bind(criarFilaPropostaPendenteDlq()).to(deadLetterExChange());
+    }
 
 
 
