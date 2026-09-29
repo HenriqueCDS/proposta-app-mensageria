@@ -58,18 +58,18 @@ spring.application.name=notificacao
 
 spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
-spring.rabbitmq.username=guest
-spring.rabbitmq.password=guest
+spring.rabbitmq.username=${RABBITMQ_USER}
+spring.rabbitmq.password=${RABBITMQ_PASSWORD}
 
 rabbitmq.queue.proposta.pendente=proposta-pendente.ms-notificacao
 rabbitmq.proposta.pendente.exchange=proposta-pendente.ex
 
-aws.acessKey=<sua-access-key>
-aws.secretKey=<sua-secret-key>
-aws.region=us-east-1
+aws.accessKey=${AWS_ACCESS_KEY:}
+aws.secretKey=${AWS_SECRET_KEY:}
+aws.region=${AWS_REGION:us-east-1}
 ```
 
-> **Atenção:** Nunca versione credenciais AWS. Utilize variáveis de ambiente ou AWS Parameter Store em produção.
+> **Atenção:** Nunca versione credenciais AWS. Defina `AWS_ACCESS_KEY`, `AWS_SECRET_KEY` e `AWS_REGION` no arquivo `.env` (ignorado pelo git) ou use AWS Parameter Store em produção.
 
 ## Configuração AWS SNS
 

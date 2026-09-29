@@ -5,6 +5,8 @@ import com.proposta.app.proposta.app.dto.PropostaResponseDto;
 import com.proposta.app.proposta.app.entity.Proposta;
 import com.proposta.app.proposta.app.mapper.PropostaMapper;
 import com.proposta.app.proposta.app.repository.PropostaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class PropostaService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PropostaService.class);
 
     private String exchangePedente;
 
@@ -86,7 +90,7 @@ public class PropostaService {
 
         } catch(RuntimeException ex) {
 
-            System.out.println(ex);
+            logger.error("Erro ao notificar proposta {} como concluída: {}", proposta.getId(), ex.getMessage(), ex);
 
         }
     }

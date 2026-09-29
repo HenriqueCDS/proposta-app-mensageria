@@ -32,18 +32,14 @@ public class PropostaSemIntegracao {
         propostaRepository.findAllByIntegradaIsFalse().forEach(proposta -> {
 
             try{
-                System.out.println("Notificar:"+proposta.getId());
+                logger.info("Reenviando proposta {} sem integração", proposta.getId());
                 notficacaoService.notificar(proposta,exchange);
                 proposta.setIntegrada(true);
                 propostaRepository.save(proposta);
 
             } catch (RuntimeException ex) {
-                logger.error("Erro ao notificar proposta: {}", ex.getMessage(), ex);
-
+                logger.error("Erro ao notificar proposta {}: {}", proposta.getId(), ex.getMessage(), ex);
             }
-
-
-
         });
 
     }

@@ -3,7 +3,6 @@ package com.example.modulo_analisecredito.service.stategy;
 import com.example.modulo_analisecredito.StategyException;
 import com.example.modulo_analisecredito.domain.Proposta;
 import com.example.modulo_analisecredito.service.stategy.service.NotificacaoRabbitService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +11,19 @@ import java.util.List;
 @Service
 public class AnaliseCreditoService {
 
-    @Autowired
-    private List<CalculoPonto> calculoPontoList;
+    private static final int PONTUACAO_MINIMA = 350;
 
-    @Autowired
-    private NotificacaoRabbitService notificacaoRabbitService;
+    private final List<CalculoPonto> calculoPontoList;
+    private final NotificacaoRabbitService notificacaoRabbitService;
+    private final String exchangeProposaConcluida;
 
-    @Value("${rabbitmq.exchange.proposta.concluida}")
-    private String exchangeProposaConcluida;
+    public AnaliseCreditoService(List<CalculoPonto> calculoPontoList,
+                                 NotificacaoRabbitService notificacaoRabbitService,
+                                 @Value("${rabbitmq.exchange.proposta.concluida}") String exchangeProposaConcluida) {
+        this.calculoPontoList = calculoPontoList;
+        this.notificacaoRabbitService = notificacaoRabbitService;
+        this.exchangeProposaConcluida = exchangeProposaConcluida;
+    }
 
 
     public void analisar(Proposta proposta){
@@ -27,9 +31,10 @@ public class AnaliseCreditoService {
         try {
             int pontos = calculoPontoList.stream().mapToInt(impl -> impl.calcular(proposta)).sum();
 
-            proposta.setAprovado( pontos > 350);
+            boolean aprovada = pontos > PONTUACAO_MINIMA;
+            proposta.setAprovado(aprovada);
 
-            proposta.setObservacao(pontos > 350
+            proposta.setObservacao(aprovada
                     ? "Proposta aprovada com " + pontos + " pontos."
                     : "Proposta reprovada. Pontuação insuficiente: " + pontos + " pontos.");
 

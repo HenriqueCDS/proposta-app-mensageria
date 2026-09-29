@@ -3,8 +3,8 @@ package com.proposta.app.proposta.app.controller;
 import com.proposta.app.proposta.app.dto.PropostaRequestDto;
 import com.proposta.app.proposta.app.dto.PropostaResponseDto;
 import com.proposta.app.proposta.app.service.PropostaService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,7 +20,7 @@ public class PropostaController {
     private PropostaService propostaService;
 
     @PostMapping
-    public ResponseEntity<PropostaResponseDto> criar(@RequestBody PropostaRequestDto requestDto){
+    public ResponseEntity<PropostaResponseDto> criar(@Valid @RequestBody PropostaRequestDto requestDto){
 
         PropostaResponseDto response = propostaService.criar(requestDto);
 

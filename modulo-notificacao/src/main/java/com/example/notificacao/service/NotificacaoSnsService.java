@@ -3,14 +3,16 @@ package com.example.notificacao.service;
 
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.model.PublishRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NotificacaoSnsService {
 
-    @Autowired
-    private AmazonSNS amazonSNS;
+    private final AmazonSNS amazonSNS;
+
+    public NotificacaoSnsService(AmazonSNS amazonSNS) {
+        this.amazonSNS = amazonSNS;
+    }
 
 
     public void notificar(String telefone,String mensagem){

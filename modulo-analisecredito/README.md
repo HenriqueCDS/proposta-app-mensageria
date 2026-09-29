@@ -67,8 +67,8 @@ spring.application.name=modulo-analisecredito
 
 spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
-spring.rabbitmq.username=guest
-spring.rabbitmq.password=guest
+spring.rabbitmq.username=${RABBITMQ_USER}
+spring.rabbitmq.password=${RABBITMQ_PASSWORD}
 
 rabbitmq.queue.proposta.pendente=proposta-pendente.ms-analise-credito
 rabbitmq.exchange.proposta.concluida=proposta-concluida.ex

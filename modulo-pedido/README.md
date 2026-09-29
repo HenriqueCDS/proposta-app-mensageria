@@ -148,7 +148,7 @@ usuario
 
 ## Configuração CORS
 
-Permite requisições de `http://localhost/` com todos os métodos HTTP.
+Origens permitidas definidas em `CORS_ALLOWED_ORIGINS` (padrão: `http://localhost` e `http://localhost:4200`), com todos os métodos HTTP.
 
 ## Configuração
 
@@ -156,16 +156,16 @@ Permite requisições de `http://localhost/` com todos os métodos HTTP.
 spring.application.name=proposta.app
 server.port=8080
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/proposta
-spring.datasource.username=postgres
-spring.datasource.password=silva007
-spring.jpa.hibernate.ddl-auto=create-drop
+spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:proposta}
+spring.datasource.username=${POSTGRES_USER:postgres}
+spring.datasource.password=${POSTGRES_PASSWORD}
+spring.jpa.hibernate.ddl-auto=${JPA_DDL_AUTO:update}
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
 spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
-spring.rabbitmq.username=guest
-spring.rabbitmq.password=guest
+spring.rabbitmq.username=${RABBITMQ_USER}
+spring.rabbitmq.password=${RABBITMQ_PASSWORD}
 
 rabbitmq.propostapendente.exchange=proposta-pendente.ex
 rabbitmq.propostaconcluida.exchange=proposta-concluida.ex

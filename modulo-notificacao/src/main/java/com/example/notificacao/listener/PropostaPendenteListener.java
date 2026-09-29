@@ -3,11 +3,15 @@ package com.example.notificacao.listener;
 import com.example.notificacao.constante.MensagemConstante;
 import com.example.notificacao.domain.Proposta;
 import com.example.notificacao.service.NotificacaoSnsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PropostaPendenteListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(PropostaPendenteListener.class);
 
     private final NotificacaoSnsService notificacaoSnsService;
 
@@ -18,7 +22,7 @@ public class PropostaPendenteListener {
     @RabbitListener(queues = "${rabbitmq.queue.proposta.pendente}")
     public void propostaPendente(Proposta proposta) {
         String mensagem = String.format(MensagemConstante.PROPOSTA_EM_ANALISE, proposta.getUsuario().getNome());
-        System.out.println(mensagem);
+        logger.info(mensagem);
         //notificacaoSnsService.notificar(proposta.getUsuario().getTelefone(),mensagem);
     }
 
@@ -30,7 +34,7 @@ public class PropostaPendenteListener {
         } else {
             mensagem = String.format(MensagemConstante.PROPOSTA_NEGADA, proposta.getUsuario().getNome(), proposta.getObservacao());
         }
-        System.out.println(mensagem);
+        logger.info(mensagem);
         //notificacaoSnsService.notificar(proposta.getUsuario().getTelefone(),mensagem);
     }
 }

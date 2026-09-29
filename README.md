@@ -137,20 +137,25 @@ A pontuação mínima para aprovação é **350 pontos**. Os critérios são:
 | PostgreSQL | 14+ | 5432 |
 | AWS SNS | — | (managed) |
 
-### Inicialização com Docker (sugestão)
+### Variáveis de ambiente (`.env`)
+
+Todas as credenciais ficam no arquivo `.env` da raiz (não versionado). Crie a partir do modelo:
 
 ```bash
-# RabbitMQ com painel de gerenciamento
-docker run -d --name rabbitmq \
-  -p 5672:5672 -p 15672:15672 \
-  rabbitmq:3-management
+cp .env.example .env   # e preencha as senhas / chaves AWS
+```
 
-# PostgreSQL
-docker run -d --name postgres \
-  -e POSTGRES_PASSWORD=silva007 \
-  -e POSTGRES_DB=proposta \
-  -p 5432:5432 \
-  postgres:14
+O `docker-compose.yml` lê esse arquivo, e os módulos Java também o carregam automaticamente
+quando executados localmente (`spring.config.import`).
+
+### Inicialização com Docker
+
+```bash
+# Sobe tudo (Postgres, RabbitMQ, 3 módulos e front-end)
+docker compose up --build
+
+# Ou apenas a infraestrutura, para rodar os módulos pela IDE
+docker compose up -d postgres rabbitmq
 ```
 
 ---

@@ -1,34 +1,40 @@
+# Todas as credenciais vêm do arquivo .env (veja .env.example).
 services:
   postgres:
     image: postgres:14
     container_name: proposta-postgres
     environment:
-      POSTGRES_DB: proposta
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: silva007
+      POSTGRES_DB: ${POSTGRES_DB:-proposta}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no .env}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10
+    restart: unless-stopped
     networks:
       - proposta-net
 
   rabbitmq:
     image: rabbitmq:3-management
     container_name: proposta-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:?Defina RABBITMQ_USER no .env}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?Defina RABBITMQ_PASSWORD no .env}
     ports:
-      - "5672:5672"
+      - "${RABBITMQ_PORT:-5672}:5672"
       - "15672:15672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 5s
       timeout: 5s
       retries: 10
+    restart: unless-stopped
     networks:
       - proposta-net
 
@@ -38,18 +44,23 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/proposta
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: silva007
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: guest
-      SPRING_RABBITMQ_PASSWORD: guest
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-proposta}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost,http://localhost:4200}
     depends_on:
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    restart: unless-stopped
     networks:
       - proposta-net
 
@@ -57,13 +68,14 @@ services:
     build: ./modulo-analisecredito
     container_name: proposta-modulo-analisecredito
     environment:
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: guest
-      SPRING_RABBITMQ_PASSWORD: guest
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     depends_on:
       rabbitmq:
         condition: service_healthy
+    restart: unless-stopped
     networks:
       - proposta-net
 
@@ -71,16 +83,17 @@ services:
     build: ./modulo-notificacao
     container_name: proposta-modulo-notificacao
     environment:
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: guest
-      SPRING_RABBITMQ_PASSWORD: guest
-      AWS_ACESSKEY: ${AWS_ACCESS_KEY:-changeme}
-      AWS_SECRETKEY: ${AWS_SECRET_KEY:-changeme}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY:-}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY:-}
       AWS_REGION: ${AWS_REGION:-us-east-1}
     depends_on:
       rabbitmq:
         condition: service_healthy
+    restart: unless-stopped
     networks:
       - proposta-net
 
@@ -91,6 +104,7 @@ services:
       - "4200:80"
     depends_on:
       - modulo-pedido
+    restart: unless-stopped
     networks:
       - proposta-net
 
