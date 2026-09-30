@@ -137,6 +137,8 @@ A pontuação mínima para aprovação é **350 pontos**. Os critérios são:
 | PostgreSQL | 14+ | 5432 |
 | AWS SNS | — | (managed) |
 
+> **Gateway:** o front-end e qualquer cliente devem chamar `http://localhost:8080` (`modulo-gateway`). O `modulo-pedido` passou para a porta interna `8081`.
+
 ### Variáveis de ambiente (`.env`)
 
 Todas as credenciais ficam no arquivo `.env` da raiz (não versionado). Crie a partir do modelo:

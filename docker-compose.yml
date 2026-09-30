@@ -41,9 +41,9 @@ services:
   modulo-pedido:
     build: ./modulo-pedido
     container_name: proposta-modulo-pedido
-    ports:
-      - "8080:8080"
+    # Sem "ports": acessível apenas pelo gateway, dentro da rede proposta-net
     environment:
+      SERVER_PORT: 8081
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
       POSTGRES_DB: ${POSTGRES_DB:-proposta}
@@ -97,13 +97,27 @@ services:
     networks:
       - proposta-net
 
+  modulo-gateway:
+    build: ./modulo-gateway
+    container_name: proposta-modulo-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      PEDIDO_URL: http://modulo-pedido:8081
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost,http://localhost:4200}
+    depends_on:
+      - modulo-pedido
+    restart: unless-stopped
+    networks:
+      - proposta-net
+
   frontend:
     build: ./Front-end/cadastro-web-master
     container_name: proposta-frontend
     ports:
       - "4200:80"
     depends_on:
-      - modulo-pedido
+      - modulo-gateway
     restart: unless-stopped
     networks:
       - proposta-net

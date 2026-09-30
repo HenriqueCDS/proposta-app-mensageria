@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: modulo-gateway
+  # Carrega o .env da raiz do repositório ao rodar localmente (ignorado se não existir)
+  config:
+    import: optional:file:.env[.properties],optional:file:../.env[.properties]
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost,http://localhost:4200}
+                allowed-methods: "*"
+                allowed-headers: "*"
+          # pedido também responde CORS; evita cabeçalhos duplicados na resposta
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+          routes:
+            - id: proposta
+              uri: ${PEDIDO_URL:http://localhost:8081}
+              predicates:
+                - Path=/proposta/**
+            - id: websocket
+              uri: ${PEDIDO_URL:http://localhost:8081}
+              predicates:
+                - Path=/ws/**
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

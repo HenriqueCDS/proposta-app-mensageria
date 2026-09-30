@@ -21,7 +21,7 @@ RUN groupadd --system app && useradd --system --gid app --no-create-home app
 COPY --from=build --chown=app:app /build/target/*.jar app.jar
 
 USER app
-EXPOSE 8081
+EXPOSE 8080
 
 # Segredos e configuração são injetados por variáveis de ambiente (.env / docker-compose)
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75"
