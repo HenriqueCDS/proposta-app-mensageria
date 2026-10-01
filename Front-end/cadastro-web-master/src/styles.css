@@ -1,16 +1,71 @@
 @import 'bootstrap/dist/css/bootstrap.css';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import '~bootstrap-icons/font/bootstrap-icons.css';
 
 :root {
-  --primary: #4f46e5;
-  --primary-dark: #3730a3;
-  --primary-light: #818cf8;
-  --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --bg-gradient-start: #1e1b4b;
-  --bg-gradient-end: #312e81;
+  --primary: #2b4fd6;
+  --primary-dark: #1f3aa8;
+  --primary-light: #5b7cf0;
+  --primary-50: #eef1fd;
+  --success: #0f9d58;
+  --success-bg: #e3f7ec;
+  --success-text: #0b7a44;
+  --danger: #e5484d;
+  --danger-bg: #fdeced;
+  --danger-text: #c3272c;
+  --warning: #e1930c;
+  --warning-bg: #fdf1dc;
+  --warning-text: #96640a;
+
+  --bg: #f3f4f8;
+  --surface: #ffffff;
+  --surface-alt: #f8f9fc;
+  --border: #e3e6ed;
+  --border-strong: #cfd4e0;
+
+  --text-primary: #161a23;
+  --text-secondary: #5a6271;
+  --text-muted: #97a0b2;
+  --text-on-primary: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 16px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 12px 32px rgba(16, 24, 40, 0.1);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --primary: #5b7cf0;
+  --primary-dark: #3a53b8;
+  --primary-light: #8aa2f5;
+  --primary-50: #1a2140;
+  --success: #27c777;
+  --success-bg: #103323;
+  --success-text: #4ade9a;
+  --danger: #f2656a;
+  --danger-bg: #3a1619;
+  --danger-text: #f68a8e;
+  --warning: #f0a93a;
+  --warning-bg: #3a2c0f;
+  --warning-text: #f3bf6c;
+
+  --bg: #0f121a;
+  --surface: #171a24;
+  --surface-alt: #1d212c;
+  --border: #2a2f3d;
+  --border-strong: #3a4151;
+
+  --text-primary: #f1f2f6;
+  --text-secondary: #aab0bf;
+  --text-muted: #727a8c;
+  --text-on-primary: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
 }
 
 * {
@@ -19,7 +74,9 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  background: var(--bg);
+  color: var(--text-primary);
   min-height: 100vh;
   margin: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }

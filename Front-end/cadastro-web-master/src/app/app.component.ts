@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   observacao: string = ''
   exibirMsgCampoObrigatorio: boolean = false
   propostas: Proposta[] = []
+  temaEscuro: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,6 +27,25 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.buscarPropostas();
+    this.carregarTema();
+  }
+
+  carregarTema(): void {
+    const temaSalvo = localStorage.getItem('tema');
+    this.temaEscuro = temaSalvo
+      ? temaSalvo === 'dark'
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.aplicarTema();
+  }
+
+  alternarTema(): void {
+    this.temaEscuro = !this.temaEscuro;
+    localStorage.setItem('tema', this.temaEscuro ? 'dark' : 'light');
+    this.aplicarTema();
+  }
+
+  aplicarTema(): void {
+    document.documentElement.setAttribute('data-theme', this.temaEscuro ? 'dark' : 'light');
   }
 
   formulario: FormGroup = this.formBuilder.group({
